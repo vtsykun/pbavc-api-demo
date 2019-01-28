@@ -1,0 +1,3 @@
+[submodule "okvpn-migration"]
+	path = ext/migration-bundle
+	url = git@github.com:okvpn/migration-bundle.git
