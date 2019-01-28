@@ -4,6 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    app.models: []
 
 services:
     # default configuration for services in *this* file
@@ -32,6 +33,16 @@ services:
 
     App\DataProvider\OroCRMCollectionDataProvider:
         arguments:
-            - []
+            - '%app.models%'
             - !tagged app.collection.extension
+        autoconfigure: true
+
+    App\DataProvider\OroCRMItemDataProvider:
+        arguments:
+            - '%app.models%'
+        autoconfigure: true
+
+    App\DataProvider\OroCRMDataPersister:
+        arguments:
+            - '%app.models%'
         autoconfigure: true

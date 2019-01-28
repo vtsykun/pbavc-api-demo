@@ -6,7 +6,6 @@ namespace App\DependencyInjection\Compiler;
 
 use ApiPlatform\Core\Util\ReflectionClassRecursiveIterator;
 use App\Annotation\OroResource;
-use App\DataProvider\OroCRMCollectionDataProvider;
 use Doctrine\Common\Annotations\Reader;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -41,7 +40,6 @@ final class AnnotationOroCRMModelPass implements CompilerPassInterface
             }
         }
 
-        $container->getDefinition(OroCRMCollectionDataProvider::class)
-            ->replaceArgument(0, $resourceClasses);
+        $container->setParameter('app.models', $resourceClasses);
     }
 }

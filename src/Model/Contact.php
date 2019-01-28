@@ -6,16 +6,18 @@ namespace App\Model;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiProperty;
+use Symfony\Component\Serializer\Annotation\Groups;
 use App\Annotation\OroResource;
 
 /**
- * @ApiResource
- * @OroResource(uri="contacts.json")
+ * @ApiResource()
+ * @OroResource(cget="contacts.json", get="contacts/{id}.json")
  */
 class Contact implements OroCRMModel
 {
     /**
      * @ApiProperty(identifier=true)
+     * @Groups({"contact"})
      * @var int
      */
     public $id;
@@ -58,13 +60,35 @@ class Contact implements OroCRMModel
         $self = new self();
 
         $self->id = $body['id'];
-        $self->firstName = $body['firstName'];
-        $self->lastName = $body['lastName'];
-        $self->identificationNumber = $body['identificationNumber'];
-        $self->identificationType = $body['identificationNumber'];
-        $self->createdAt = $body['createdAt'] ? new \DateTime($body['createdAt']) : null;
-        $self->emails = $body['emails'] ? array_map([ContactEmail::class, 'fromRequest'], $body['emails']) : [];
+        $self->firstName = $body['firstName'] ?? null;
+        $self->lastName = $body['lastName'] ?? null;
+        $self->identificationNumber = $body['identificationNumber'] ?? null;
+        $self->identificationType = $body['identificationType'] ?? null;
+        $self->createdAt = isset($body['createdAt']) ? new \DateTime($body['createdAt']) : null;
+        $self->emails = isset($body['emails']) && $body['emails']
+            ? array_map([ContactEmail::class, 'fromRequest'], $body['emails']) : [];
 
         return $self;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function toRequest(): array
+    {
+        return [
+            'firstName' => $this->firstName,
+            'lastName' => $this->lastName,
+            'identificationNumber' => $this->identificationNumber,
+            'identificationType' => $this->identificationType
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function identifier(): ?int
+    {
+        return $this->id;
     }
 }

@@ -1,12 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Model;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiProperty;
 
 /**
- * @ApiResource
+ * @ApiResource(
+ *     shortName="Email"
+ * )
  */
 class ContactEmail implements OroCRMModel
 {
@@ -41,6 +45,28 @@ class ContactEmail implements OroCRMModel
         $self->id = $request['id'] ?? 0;
         $self->email = $request['email'] ?? null;
         $self->primary = $request['primary'] ?? false;
+        $self->valid = $request['status'] === 'valid';
+
         return $self;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function toRequest(): array
+    {
+        return [
+            'email' => $this->email,
+            'status' => $this->valid ? 'valid' : null,
+            'primary' => $this->primary
+        ];
+    }
+
+    /**
+     * @return int|null
+     */
+    public function identifier(): ?int
+    {
+        return $this->id;
     }
 }

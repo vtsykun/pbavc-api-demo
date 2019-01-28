@@ -8,7 +8,8 @@ namespace App\Annotation;
  * @Annotation
  * @Target({"CLASS"})
  * @Attributes(
- *     @Attribute("uri", type="string")
+ *     @Attribute("cget", type="string"),
+ *     @Attribute("get", type="string"),
  * )
  */
 class OroResource
@@ -16,7 +17,12 @@ class OroResource
     /**
      * @var string
      */
-    public $uri;
+    public $cget;
+
+    /**
+     * @var string
+     */
+    public $get;
 
     /**
      * @return array
@@ -24,7 +30,8 @@ class OroResource
     public function toArray(): array
     {
         return [
-            'uri' => $this->uri
+            'cget' => $this->cget,
+            'get' => $this->get
         ];
     }
 }

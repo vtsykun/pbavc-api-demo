@@ -1,0 +1,19 @@
+App\Model\Contact:
+    itemOperations:
+        get: ~
+    collectionOperations:
+        create_email:
+            route_name: 'api_contact_add_email'
+            swagger_context:
+                summary: Create email message for Pereodic campaign
+                description: >
+                    # Create email message for Pereodic campaign
+                parameters:
+                    -
+                        in: body
+                        schema:
+                            type: object
+                            properties:
+                                email: {type: string}
+                        example:
+                            email: admin@example.com

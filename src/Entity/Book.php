@@ -7,7 +7,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BookRepository")
- * @ApiResource
+ * @ApiResource()
  */
 class Book
 {

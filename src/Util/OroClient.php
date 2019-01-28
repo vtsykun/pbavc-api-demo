@@ -74,7 +74,8 @@ class OroClient
     private function initCurl($uri, $method, $body = null)
     {
         $ch = \curl_init();
-        \curl_setopt($ch, CURLOPT_URL, $this->apiUrl . $uri);
+        $resourceUrl = rtrim($this->apiUrl, '/') . '/' . ltrim($uri, '/');
+        \curl_setopt($ch, CURLOPT_URL, $resourceUrl);
         \curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         \curl_setopt($ch, CURLOPT_TIMEOUT, 25);
         \curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);

@@ -38,7 +38,7 @@ final class OroCRMCollectionDataProvider implements CollectionDataProviderInterf
         }
 
         $config = $this->resourceClasses[$resourceClass];
-        $uri = $config['uri'] . '?' . http_build_query($params->toArray());
+        $uri = $config['cget'] . '?' . http_build_query($params->toArray());
         $data = $this->client->execute($uri, strtoupper($operationName));
 
         $data = array_map([$resourceClass, 'fromRequest'], $data);
